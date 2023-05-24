@@ -13,23 +13,23 @@ Aplikasi point of sales adalah aplikasi kasir dan stok inventory yang dibangun m
 
 ## Cara Menjalankanya
 
-```http
+```
   Start Apache && MYSQL
 ```
 
-```http
+```
   Buka Netbeans
 ```
 
-```http
+```
   Pilih Services > Databases Klik Kanan
 ```
 
-```http
+```
   Pilih New Connection > Klik Add
 ```
 
-```http
+```
   Pilih Folder Libraries > MYSQL > Mysql Connector Jar
 ```
 
