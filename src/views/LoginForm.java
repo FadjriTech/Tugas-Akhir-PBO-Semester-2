@@ -5,6 +5,7 @@
 package views;
 
 import database.Connection;
+import helper.SessionManager;
 import helper.Styling;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -268,12 +269,15 @@ public class LoginForm extends javax.swing.JInternalFrame {
                 validation.setVisible(true);
                 String message = database.authentication(username, password);
                 validation.setText(message);
-                if(message.equals("Authentication successful")){
+                if(message.equals("Authentication successful")){   
                     MainFrame frame = new MainFrame();
                     frame.setVisible(false);
-                    Homepage home = new Homepage();
-                    home.setVisible(true);
-                    this.getDesktopPane().add(home);
+                    
+                    // -- simpan session
+                    SessionManager sessionManager = new SessionManager();
+                    Menu menu = new Menu();
+                    menu.setVisible(true);
+                    this.getDesktopPane().add(menu);
                     this.dispose();
                 }
             } catch (SQLException ex) {

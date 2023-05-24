@@ -4,7 +4,6 @@
  */
 package views;
 
-import views.LoginForm;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 
