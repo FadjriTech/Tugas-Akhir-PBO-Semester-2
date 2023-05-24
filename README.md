@@ -33,11 +33,11 @@ Aplikasi point of sales adalah aplikasi kasir dan stok inventory yang dibangun m
   Pilih Folder Libraries > MYSQL > Mysql Connector Jar
 ```
 
-```http
+```
   Buka localhost/phpmyadmin buat database pos
 ```
 
-```http
+```
   import pos.sql
 ```
 
