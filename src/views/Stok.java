@@ -21,17 +21,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 /**
  *
  * @author faidfadjri
  */
-public class Homepage extends javax.swing.JInternalFrame{
+public final class Stok extends javax.swing.JInternalFrame{
 
     /**
      * Creates new form Homepage
      */
-    public Homepage() {
+    public Stok() {
         initComponents();
         setTable();
     }
@@ -49,11 +50,11 @@ public class Homepage extends javax.swing.JInternalFrame{
         tableModel.addColumn("Jumlah");
         
         int rowHeight = 35;
-        Font headerFont = new Font("Sans Serif", Font.BOLD, 20);
+        Font headerFont = new Font("Sans Serif", Font.PLAIN, 20);
         stokTable.getTableHeader().setFont(headerFont);
         stokTable.getTableHeader().setOpaque(false);
-        stokTable.getTableHeader().setBackground(new Color(102,204,255));
-        stokTable.getTableHeader().setForeground(new Color(0,0,0));
+        stokTable.getTableHeader().setBackground(new Color(227,240,243));
+        stokTable.getTableHeader().setForeground(new Color(16,118,171));
         stokTable.setRowHeight(rowHeight);
         
 
@@ -83,10 +84,14 @@ public class Homepage extends javax.swing.JInternalFrame{
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-                // Set the font size for the specific row
+                // Set the font size and font family for the specific row
                 int fontSize = 18; // Customize the font size as needed
-                Font font = component.getFont();
-                component.setFont(font.deriveFont(Font.PLAIN, fontSize));
+                String fontFamily = "Sans Serif"; // Customize the font family as needed
+                Font font = new Font(fontFamily, Font.PLAIN, fontSize);
+                component.setFont(font);
+
+                // Center align the rows
+                ((DefaultTableCellRenderer) component).setHorizontalAlignment(SwingConstants.CENTER);
 
                 return component;
             }
@@ -173,7 +178,7 @@ public class Homepage extends javax.swing.JInternalFrame{
             }
         ));
         stokTable.setFocusable(false);
-        stokTable.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        stokTable.setSelectionBackground(new java.awt.Color(227, 240, 243));
         stokTable.setShowHorizontalLines(true);
         stokTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(stokTable);
