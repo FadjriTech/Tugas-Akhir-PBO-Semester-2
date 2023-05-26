@@ -24,7 +24,22 @@ public class MainFrame extends javax.swing.JFrame {
         login.setVisible(true);
         desktopPane.add(login);
         loginMenu.setEnabled(false);
+        isNotAuthorized();
         
+    }
+    
+    public void isLogin(){
+        inventoryMenu.setEnabled(true);
+        inventoryMenu.setVisible(true);
+        transactionMenu.setEnabled(true);
+        transactionMenu.setVisible(true);
+    }
+    
+    void isNotAuthorized(){
+        inventoryMenu.setEnabled(false);
+        inventoryMenu.setVisible(false);
+        transactionMenu.setEnabled(false);
+        transactionMenu.setVisible(false);
     }
 
     /**
@@ -44,7 +59,8 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         homeMenu = new javax.swing.JMenu();
         loginMenu = new javax.swing.JMenuItem();
-        logoutMenu = new javax.swing.JMenuItem();
+        transactionMenu = new javax.swing.JMenuItem();
+        inventoryMenu = new javax.swing.JMenuItem();
         exitButton = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -83,13 +99,21 @@ public class MainFrame extends javax.swing.JFrame {
         });
         homeMenu.add(loginMenu);
 
-        logoutMenu.setText("Logout");
-        logoutMenu.addActionListener(new java.awt.event.ActionListener() {
+        transactionMenu.setText("Transaction");
+        transactionMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutMenuActionPerformed(evt);
+                transactionMenuActionPerformed(evt);
             }
         });
-        homeMenu.add(logoutMenu);
+        homeMenu.add(transactionMenu);
+
+        inventoryMenu.setText("Inventory");
+        inventoryMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inventoryMenuActionPerformed(evt);
+            }
+        });
+        homeMenu.add(inventoryMenu);
 
         jMenuBar1.add(homeMenu);
 
@@ -126,14 +150,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_homeMenuActionPerformed
 
-    private void logoutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutMenuActionPerformed
-        System.out.println("pos.MainFrame.exitButtonActionPerformed()");
-        int choice = JOptionPane.showConfirmDialog(this, "Keluar Aplikasi?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
-        if (choice == JOptionPane.OK_OPTION) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_logoutMenuActionPerformed
-
     private void loginMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginMenuActionPerformed
         desktopPane.removeAll();
         LoginForm login = new LoginForm();
@@ -153,6 +169,18 @@ public class MainFrame extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_exitButtonMouseClicked
+
+    private void inventoryMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventoryMenuActionPerformed
+        Stok pages = new Stok();
+        desktopPane.add(pages);
+        pages.setVisible(true);
+    }//GEN-LAST:event_inventoryMenuActionPerformed
+
+    private void transactionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transactionMenuActionPerformed
+        Transaction pages = new Transaction();
+        desktopPane.add(pages);
+        pages.setVisible(true);
+    }//GEN-LAST:event_transactionMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,12 +222,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu exitButton;
     private javax.swing.JMenu homeMenu;
+    private javax.swing.JMenuItem inventoryMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem loginMenu;
-    private javax.swing.JMenuItem logoutMenu;
+    private javax.swing.JMenuItem transactionMenu;
     // End of variables declaration//GEN-END:variables
 }

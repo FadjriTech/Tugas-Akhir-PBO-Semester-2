@@ -2,17 +2,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package database;
 
 /**
  *
  * @author faidfadjri
  */
-public class Session {
+class UserModel {
+    private int id;
     private String username;
     private String password;
     private String role;
 
+    public UserModel(int id, String username, String password, String role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    // Getter and Setter for id
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    // Getter and Setter for username
     public String getUsername() {
         return username;
     }
@@ -21,6 +39,7 @@ public class Session {
         this.username = username;
     }
 
+    // Getter and Setter for password
     public String getPassword() {
         return password;
     }
@@ -29,6 +48,7 @@ public class Session {
         this.password = password;
     }
 
+    // Getter and Setter for role
     public String getRole() {
         return role;
     }
@@ -37,4 +57,3 @@ public class Session {
         this.role = role;
     }
 }
-

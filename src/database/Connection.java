@@ -24,7 +24,7 @@ public final class Connection {
     }
     
     
-    public String authentication(String username, String password) throws SQLException {
+    public Object authentication(String username, String password) throws SQLException {
         
      // username validation
      try {
@@ -33,22 +33,29 @@ public final class Connection {
          ResultSet rs = stmt.executeQuery(sql);
 
          if (rs.next()) {
+            int id = rs.getInt("id");
             String storedPassword = rs.getString("password");
+            String storedUsername = rs.getString("username");
+            String role = rs.getString("role");
+            
+            UserModel user = new UserModel(id, storedUsername, storedPassword, role);
+            
 
             // password matching
             if (storedPassword.equals(password)) {
                 // Authentication successful
-                return "Authentication successful";
+                return user;
             } else {
                 // Wrong password
-                return "Wrong password";
+                return false;
             }
          } else { // 404
-             return "Username doesnt exist";
+             return false;
          }
      } catch (SQLException e) {
-         return "Error retrieving data from the database : " + e.getMessage();
+         System.err.println("Error Message : " + e.getMessage());
      }
+        return null;
     }
    
     

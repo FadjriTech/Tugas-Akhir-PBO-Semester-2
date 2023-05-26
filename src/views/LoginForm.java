@@ -5,7 +5,6 @@
 package views;
 
 import database.Connection;
-import helper.SessionManager;
 import helper.Styling;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -28,6 +27,7 @@ public class LoginForm extends javax.swing.JInternalFrame {
     /**
      * Creates new form LoginForm
      */
+     
     public LoginForm() {
         initComponents();
         
@@ -268,24 +268,22 @@ public class LoginForm extends javax.swing.JInternalFrame {
         
         validation.setForeground(Color.red);
         if(username.equals("") || password.equals("")){
-            validation.setText("Lengkapi username atau password dahulu");
+            validation.setText("Fill username & password field");
         } else {
             /* Buat koneksi ke database */
             Connection database = new Connection(); 
             try {
                 validation.setVisible(true);
-                String message = database.authentication(username, password);
-                validation.setText(message);
-                if(message.equals("Authentication successful")){   
+                Object user = database.authentication(username, password);
+                if(!user.equals(null) && !user.equals(false)){
                     MainFrame frame = new MainFrame();
                     frame.setVisible(false);
-                    
-                    // -- simpan session
-                    SessionManager sessionManager = new SessionManager();
                     Menu menu = new Menu();
                     menu.setVisible(true);
                     this.getDesktopPane().add(menu);
                     this.dispose();
+                } else {
+                     validation.setText("Please check your username or password");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);

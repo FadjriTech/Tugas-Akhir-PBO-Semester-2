@@ -135,7 +135,10 @@ public class Menu extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void transactionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transactionButtonActionPerformed
-        // TODO add your handling code here:
+        Transaction pages = new Transaction();
+        pages.setVisible(true);
+        this.getDesktopPane().add(pages);
+        this.dispose();
     }//GEN-LAST:event_transactionButtonActionPerformed
 
     private void stokButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stokButtonActionPerformed
