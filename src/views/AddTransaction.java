@@ -8,6 +8,8 @@ import database.Connection;
 import database.Product;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
@@ -17,6 +19,10 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JSpinner;
+import javax.swing.UIManager;
 
 /**
  *
@@ -27,23 +33,29 @@ public class AddTransaction extends javax.swing.JDialog {
     /**
      * Creates new form AddTransaction
      */
+    
+    public List<String> itemList = new ArrayList<>();
+    public List<Integer> priceList = new ArrayList<>();
+    
     public AddTransaction(java.awt.Frame parent, boolean modal) throws SQLException {
         super(parent, modal);
         initComponents();
-        setComboBox();
+       
         
+        JComponent editor = this.itemQty.getEditor();
+        JFormattedTextField textField = ((JSpinner.DefaultEditor) editor).getTextField();
+        textField.setEditable(false);
         getItemList();
     }
     
-  void getItemList() throws SQLException {
+    void getItemList() throws SQLException {
         Connection db = new Connection();
         ResultSet rs = db.runQueries("SELECT item, price FROM stok GROUP BY item");
-
-        List<String> itemList = new ArrayList<>();
-
         while (rs.next()) {
             String item = rs.getString("item");
+            int price = rs.getInt("price");
             itemList.add(item);
+            priceList.add(price);
         }
 
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(itemList.toArray(new String[0]));
@@ -51,30 +63,6 @@ public class AddTransaction extends javax.swing.JDialog {
     }
 
 
-    
-    void setComboBox(){
-        itemName.setRenderer(new DefaultListCellRenderer() {
-        @Override
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-            if (isSelected) {
-                renderer.setBackground(new Color(61, 164, 225)); // Set the color for the selected item
-                renderer.setForeground(Color.WHITE); // Set the text color for the selected item
-            } else {
-                renderer.setBackground(Color.WHITE); // Set the background color for unselected items
-                renderer.setForeground(Color.BLACK); // Set the text color for unselected items
-            }
-
-            if (cellHasFocus) {
-                renderer.setBackground(Color.WHITE); // Set the background color when the JComboBox has focus
-            }
-
-            return renderer;
-        }
-    });
-
-    }
     
 
     /**
@@ -90,11 +78,9 @@ public class AddTransaction extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         itemName = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        itemQty = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
-        transactionType = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        addTransaction = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -110,25 +96,27 @@ public class AddTransaction extends javax.swing.JDialog {
         jLabel2.setText("Add new transaction of your business");
 
         itemName.setBackground(new java.awt.Color(254, 254, 254));
-        itemName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("Choose Item");
 
+        itemQty.setFocusable(false);
+        itemQty.setValue(1);
+
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
         jLabel4.setText("Quantity");
 
-        transactionType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel5.setText("Transaction Type");
-
-        jButton1.setBackground(new java.awt.Color(61, 164, 225));
-        jButton1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Add New");
-        jButton1.setFocusable(false);
-        jButton1.setRolloverEnabled(false);
+        addTransaction.setBackground(new java.awt.Color(61, 164, 225));
+        addTransaction.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        addTransaction.setForeground(new java.awt.Color(255, 255, 255));
+        addTransaction.setText("Add New");
+        addTransaction.setFocusable(false);
+        addTransaction.setRolloverEnabled(false);
+        addTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTransactionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -142,10 +130,8 @@ public class AddTransaction extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(itemName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSpinner1)
-                    .addComponent(transactionType, 0, 674, Short.MAX_VALUE)
-                    .addComponent(jLabel5)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(itemQty)
+                    .addComponent(addTransaction, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -162,18 +148,29 @@ public class AddTransaction extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(transactionType, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addComponent(itemQty, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(addTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransactionActionPerformed
+        String item = (String) itemName.getSelectedItem();
+        int selectedIndex = itemName.getSelectedIndex();
+        int price = priceList.get(selectedIndex);
+        int qty = (int) itemQty.getValue();
+        
+        
+        int totalPrice = qty * price;
+
+        Connection db = new Connection();
+        db.insertTransaction(item, totalPrice);
+        db.updateStockTo(item, qty);
+        this.dispose();
+    }//GEN-LAST:event_addTransactionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -222,14 +219,12 @@ public class AddTransaction extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addTransaction;
     private javax.swing.JComboBox<String> itemName;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JSpinner itemQty;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JComboBox<String> transactionType;
     // End of variables declaration//GEN-END:variables
 }

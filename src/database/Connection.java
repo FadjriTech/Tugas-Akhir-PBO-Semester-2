@@ -72,6 +72,43 @@ public final class Connection {
         return rs;
     }
     
+    public int getCash() {
+        int total = 0;
+        ResultSet rs = null;
+        try {
+            Statement stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT SUM(harga) as total FROM transaksi");
+
+            if (rs.next()) {
+                String totalStr = rs.getString("total");
+                if (totalStr != null) {
+                    total = Integer.parseInt(totalStr);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving data from the database: " + e.getMessage());
+        }
+
+        return total;
+    }
+
+    
+    public void insertTransaction(String barang, int price) {
+        try {
+            // Prepare the SQL statement with placeholders for the values
+            String sql = "INSERT INTO transaksi (barang, harga) VALUES (?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            // Set the values for the prepared statement
+            pstmt.setString(1, barang);
+            pstmt.setInt(2, price);
+
+            // Execute the statement
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error inserting data into the database: " + e.getMessage());
+        }
+    }
     
     public void insertStok(String item, int price, int quantity) {
         try {
@@ -83,6 +120,24 @@ public final class Connection {
             pstmt.setString(1, item);
             pstmt.setDouble(2, price);
             pstmt.setInt(3, quantity);
+
+            // Execute the statement
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error inserting data into the database: " + e.getMessage());
+        }
+    }    
+    
+    
+    public void updateStockTo(String item, int qty){
+        try {
+            // Prepare the SQL statement with placeholders for the values
+            String sql = "UPDATE stok SET quantity = quantity - ? WHERE item = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            // Set the values for the prepared statement
+            pstmt.setInt(1, qty);
+            pstmt.setString(2, item);
 
             // Execute the statement
             pstmt.executeUpdate();

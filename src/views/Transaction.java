@@ -5,6 +5,7 @@
 package views;
 
 import database.Connection;
+import helper.Table;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -13,6 +14,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -33,85 +38,32 @@ public final class Transaction extends javax.swing.JInternalFrame {
      */
     public Transaction() {
         initComponents();
-        setTable();
+        initTable();
     }
     
-    
-     public void setTable(){
-        // -- Ambil data dari database
-        Connection database = new Connection();
+    void initTable(){
+        Table table = new Table();
         
-        // -- Define Table and add column header
+        
+        
+        Connection db = new Connection();
+        int saldo = db.getCash();
+        cash.setText(String.valueOf(saldo));
+        
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("No");
-        tableModel.addColumn("Jenis Transaksi");
         tableModel.addColumn("Barang");
         tableModel.addColumn("Total");
         
-        int rowHeight = 35;
-        Font headerFont = new Font("Sans Serif", Font.PLAIN, 20);
-        transactionTable.getTableHeader().setFont(headerFont);
-        transactionTable.getTableHeader().setOpaque(false);
-        transactionTable.getTableHeader().setBackground(new Color(227,240,243));
-        transactionTable.getTableHeader().setForeground(new Color(16,118,171));
-        transactionTable.setRowHeight(rowHeight);
         
-
-        JTableHeader header = transactionTable.getTableHeader();
-        header.setPreferredSize(new Dimension(header.getWidth(), rowHeight));
-
-        transactionTable.setModel(tableModel);
-        
-        ResultSet res = database.runQueries("SELECT * FROM transaksi");
-        try {
-            while(res.next()){
-                tableModel.addRow(new Object[] {
-                    res.getString("id"),
-                    res.getString("jenis"),
-                    res.getString("barang"),
-                    res.getString("harga")
-                });
-            }
-        } catch(SQLException e){
-            System.out.print(e.getErrorCode());
-        }
+        List<String> fieldList = new ArrayList<>();
+        fieldList.add("barang");
+        fieldList.add("harga");
         
         
-        // -- set font size
-        transactionTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                // Set the font size and font family for the specific row
-                int fontSize = 18; // Customize the font size as needed
-                String fontFamily = "Sans Serif"; // Customize the font family as needed
-                Font font = new Font(fontFamily, Font.PLAIN, fontSize);
-                component.setFont(font);
-
-                // Center align the rows
-                ((DefaultTableCellRenderer) component).setHorizontalAlignment(SwingConstants.CENTER);
-
-                return component;
-            }
-        });
-        
-        // -- List selection listener
-        ListSelectionModel selectionModel = transactionTable.getSelectionModel();
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting() && !selectionModel.isSelectionEmpty()) {
-                    int selectedRow = selectionModel.getMinSelectionIndex();
-
-                    // Retrieve data from the selected row
-                    Object id = transactionTable.getValueAt(selectedRow, 0); // Assuming you want to retrieve data from the first column
-                    Object item = transactionTable.getValueAt(selectedRow, 1); // Assuming you want to retrieve data from the first column
-                    Object harga = transactionTable.getValueAt(selectedRow, 2); // Assuming you want to retrieve data from the first column
-                }
-            }
-        });
+        table.set(transactionTable, tableModel, "SELECT * FROM transaksi", fieldList);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -128,7 +80,7 @@ public final class Transaction extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        cash = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         transactionTable = new javax.swing.JTable();
         backToStok = new javax.swing.JButton();
@@ -158,9 +110,9 @@ public final class Transaction extends javax.swing.JInternalFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/wallet.png"))); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(16, 118, 171));
-        jLabel4.setText("Rp. 500.000");
+        cash.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        cash.setForeground(new java.awt.Color(16, 118, 171));
+        cash.setText("Rp. 500.000");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,7 +120,7 @@ public final class Transaction extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(jLabel4)
+                .addComponent(cash)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addGap(19, 19, 19))
@@ -182,7 +134,7 @@ public final class Transaction extends javax.swing.JInternalFrame {
                         .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jLabel4)))
+                        .addComponent(cash)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -199,9 +151,11 @@ public final class Transaction extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(transactionTable);
 
-        backToStok.setBackground(new java.awt.Color(204, 204, 204));
+        backToStok.setBackground(new java.awt.Color(254, 254, 254));
         backToStok.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        backToStok.setForeground(new java.awt.Color(49, 157, 212));
         backToStok.setText("Kembali");
+        backToStok.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(49, 157, 212), 2));
         backToStok.setFocusable(false);
         backToStok.setRolloverEnabled(false);
         backToStok.addActionListener(new java.awt.event.ActionListener() {
@@ -271,13 +225,18 @@ public final class Transaction extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_backToStokActionPerformed
 
     private void addTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransaksiActionPerformed
-        AddTransaction dialog = new AddTransaction(null, closable);
+        AddTransaction dialog = null;
+        try {
+            dialog = new AddTransaction(null, closable);
+        } catch (SQLException ex) {
+            Logger.getLogger(Transaction.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dialog.setVisible(true);
       
         dialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                setTable();
+                initTable();
             }
         });
     }//GEN-LAST:event_addTransaksiActionPerformed
@@ -286,10 +245,10 @@ public final class Transaction extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addTransaksi;
     private javax.swing.JButton backToStok;
+    private javax.swing.JLabel cash;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel sayHello;

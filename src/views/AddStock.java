@@ -43,12 +43,14 @@ public class AddStock extends javax.swing.JDialog {
         hargaBarang = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
-        addStokbutton.setBackground(new java.awt.Color(102, 204, 255));
+        addStokbutton.setBackground(new java.awt.Color(61, 164, 225));
         addStokbutton.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        addStokbutton.setForeground(new java.awt.Color(255, 255, 255));
         addStokbutton.setText("Tambah Barang");
         addStokbutton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         addStokbutton.addActionListener(new java.awt.event.ActionListener() {
@@ -59,8 +61,9 @@ public class AddStock extends javax.swing.JDialog {
 
         jumlahBarang.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
-        jLabel1.setText("Form Tambah Stok");
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(16, 118, 171));
+        jLabel1.setText("Add Stock");
 
         namaBarang.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         namaBarang.addActionListener(new java.awt.event.ActionListener() {
@@ -85,6 +88,10 @@ public class AddStock extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         jLabel4.setText("Jumlah Barang");
 
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel5.setText("Add new stock for your business inventory");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,15 +106,18 @@ public class AddStock extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jumlahBarang, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addStokbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(addStokbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGap(34, 34, 34)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -121,7 +131,7 @@ public class AddStock extends javax.swing.JDialog {
                 .addComponent(jumlahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(addStokbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
 
         pack();
@@ -204,6 +214,7 @@ public class AddStock extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JSpinner jumlahBarang;
     private javax.swing.JTextField namaBarang;
     // End of variables declaration//GEN-END:variables

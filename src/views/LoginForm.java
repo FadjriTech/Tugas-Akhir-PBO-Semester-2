@@ -96,6 +96,11 @@ public class LoginForm extends javax.swing.JInternalFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         passwordField.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyPressed(evt);
+            }
+        });
 
         loginButton.setBackground(new java.awt.Color(61, 164, 225));
         loginButton.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -257,7 +262,10 @@ public class LoginForm extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        
+        signIn();
+    }//GEN-LAST:event_loginButtonActionPerformed
+
+    void signIn(){
         /* Ambil username & password */
         String username = usernameField.getText(); 
         var password = passwordField.getText();
@@ -289,8 +297,13 @@ public class LoginForm extends javax.swing.JInternalFrame {
                 Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-    }//GEN-LAST:event_loginButtonActionPerformed
+    }
+    
+    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
+       if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+           signIn();
+       }
+    }//GEN-LAST:event_passwordFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

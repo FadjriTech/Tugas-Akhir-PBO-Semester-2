@@ -5,6 +5,7 @@
 package views;
 
 import database.Connection;
+import helper.Table;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -13,6 +14,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -34,86 +37,29 @@ public final class Stock extends javax.swing.JInternalFrame{
      */
     public Stock() {
         initComponents();
-        setTable();
+        initTable();
     }
     
     
-    public void setTable(){
-        // -- Ambil data dari database
-        Connection database = new Connection();
+    void initTable(){
+        Table table = new Table();
         
-        // -- Define Table and add column header
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("No");
         tableModel.addColumn("Barang");
         tableModel.addColumn("Harga");
         tableModel.addColumn("Jumlah");
         
-        int rowHeight = 35;
-        Font headerFont = new Font("Sans Serif", Font.PLAIN, 20);
-        stokTable.getTableHeader().setFont(headerFont);
-        stokTable.getTableHeader().setOpaque(false);
-        stokTable.getTableHeader().setBackground(new Color(227,240,243));
-        stokTable.getTableHeader().setForeground(new Color(16,118,171));
-        stokTable.setRowHeight(rowHeight);
         
-
-        JTableHeader header = stokTable.getTableHeader();
-        header.setPreferredSize(new Dimension(header.getWidth(), rowHeight));
-
-        stokTable.setModel(tableModel);
-        
-        ResultSet res = database.runQueries("SELECT * FROM stok");
-        try {
-            while(res.next()){
-                tableModel.addRow(new Object[] {
-                    res.getString("id"),
-                    res.getString("item"),
-                    res.getString("price"),
-                    res.getString("quantity")
-                });
-            }
-        } catch(SQLException e){
-            System.out.print(e.getErrorCode());
-        }
+        List<String> fieldList = new ArrayList<>();
+        fieldList.add("item");
+        fieldList.add("price");
+        fieldList.add("quantity");
         
         
-        // -- set font size
-        stokTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                // Set the font size and font family for the specific row
-                int fontSize = 18; // Customize the font size as needed
-                String fontFamily = "Sans Serif"; // Customize the font family as needed
-                Font font = new Font(fontFamily, Font.PLAIN, fontSize);
-                component.setFont(font);
-
-                // Center align the rows
-                ((DefaultTableCellRenderer) component).setHorizontalAlignment(SwingConstants.CENTER);
-
-                return component;
-            }
-        });
-        
-        // -- List selection listener
-        ListSelectionModel selectionModel = stokTable.getSelectionModel();
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting() && !selectionModel.isSelectionEmpty()) {
-                    int selectedRow = selectionModel.getMinSelectionIndex();
-
-                    // Retrieve data from the selected row
-                    Object id = stokTable.getValueAt(selectedRow, 0); // Assuming you want to retrieve data from the first column
-                    Object item = stokTable.getValueAt(selectedRow, 1); // Assuming you want to retrieve data from the first column
-                    Object harga = stokTable.getValueAt(selectedRow, 2); // Assuming you want to retrieve data from the first column
-                }
-            }
-        });
+        table.set(stokTable, tableModel, "SELECT * FROM stok", fieldList);
     }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -186,7 +132,7 @@ public final class Stock extends javax.swing.JInternalFrame{
         jToggleButton1.setBackground(new java.awt.Color(61, 164, 225));
         jToggleButton1.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton1.setText("Tambah Stok");
+        jToggleButton1.setText("Add Stock");
         jToggleButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         jToggleButton1.setBorderPainted(false);
         jToggleButton1.setFocusPainted(false);
@@ -199,7 +145,7 @@ public final class Stock extends javax.swing.JInternalFrame{
         transaksiButton.setBackground(new java.awt.Color(254, 254, 254));
         transaksiButton.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         transaksiButton.setForeground(new java.awt.Color(49, 157, 212));
-        transaksiButton.setText("Kembali");
+        transaksiButton.setText("Back");
         transaksiButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(49, 157, 212), 2, true));
         transaksiButton.setFocusPainted(false);
         transaksiButton.addActionListener(new java.awt.event.ActionListener() {
@@ -256,7 +202,7 @@ public final class Stock extends javax.swing.JInternalFrame{
         dialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                setTable();
+                initTable();
             }
         });
        
