@@ -171,7 +171,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonMouseClicked
 
     private void inventoryMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventoryMenuActionPerformed
-        Stok pages = new Stok();
+        Stock pages = new Stock();
         desktopPane.add(pages);
         pages.setVisible(true);
     }//GEN-LAST:event_inventoryMenuActionPerformed

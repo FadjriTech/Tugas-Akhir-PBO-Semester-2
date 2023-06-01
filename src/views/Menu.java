@@ -142,7 +142,7 @@ public class Menu extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_transactionButtonActionPerformed
 
     private void stokButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stokButtonActionPerformed
-        Stok home = new Stok();
+        Stock home = new Stock();
         home.setVisible(true);
         this.getDesktopPane().add(home);
         this.dispose();

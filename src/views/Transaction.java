@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JTable;
@@ -42,9 +44,9 @@ public final class Transaction extends javax.swing.JInternalFrame {
         // -- Define Table and add column header
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("No");
+        tableModel.addColumn("Jenis Transaksi");
         tableModel.addColumn("Barang");
-        tableModel.addColumn("Harga");
-        tableModel.addColumn("Jumlah");
+        tableModel.addColumn("Total");
         
         int rowHeight = 35;
         Font headerFont = new Font("Sans Serif", Font.PLAIN, 20);
@@ -208,8 +210,9 @@ public final class Transaction extends javax.swing.JInternalFrame {
             }
         });
 
-        addTransaksi.setBackground(new java.awt.Color(102, 204, 255));
+        addTransaksi.setBackground(new java.awt.Color(61, 164, 225));
         addTransaksi.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        addTransaksi.setForeground(new java.awt.Color(255, 255, 255));
         addTransaksi.setText("Tambah Transaksi");
         addTransaksi.setFocusable(false);
         addTransaksi.setRolloverEnabled(false);
@@ -268,7 +271,15 @@ public final class Transaction extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_backToStokActionPerformed
 
     private void addTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransaksiActionPerformed
-        // TODO add your handling code here:
+        AddTransaction dialog = new AddTransaction(null, closable);
+        dialog.setVisible(true);
+      
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                setTable();
+            }
+        });
     }//GEN-LAST:event_addTransaksiActionPerformed
 
 

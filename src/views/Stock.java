@@ -27,12 +27,12 @@ import javax.swing.SwingConstants;
  *
  * @author faidfadjri
  */
-public final class Stok extends javax.swing.JInternalFrame{
+public final class Stock extends javax.swing.JInternalFrame{
 
     /**
      * Creates new form Homepage
      */
-    public Stok() {
+    public Stock() {
         initComponents();
         setTable();
     }
@@ -183,8 +183,9 @@ public final class Stok extends javax.swing.JInternalFrame{
         stokTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(stokTable);
 
-        jToggleButton1.setBackground(new java.awt.Color(102, 204, 255));
+        jToggleButton1.setBackground(new java.awt.Color(61, 164, 225));
         jToggleButton1.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
         jToggleButton1.setText("Tambah Stok");
         jToggleButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         jToggleButton1.setBorderPainted(false);
@@ -198,7 +199,7 @@ public final class Stok extends javax.swing.JInternalFrame{
         transaksiButton.setBackground(new java.awt.Color(254, 254, 254));
         transaksiButton.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         transaksiButton.setForeground(new java.awt.Color(49, 157, 212));
-        transaksiButton.setText("Transaksi");
+        transaksiButton.setText("Kembali");
         transaksiButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(49, 157, 212), 2, true));
         transaksiButton.setFocusPainted(false);
         transaksiButton.addActionListener(new java.awt.event.ActionListener() {
@@ -248,7 +249,7 @@ public final class Stok extends javax.swing.JInternalFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-       TambahStok dialog = new TambahStok(null, closable);
+       AddStock dialog = new AddStock(null, closable);
        dialog.setVisible(true);
        
        
@@ -262,7 +263,10 @@ public final class Stok extends javax.swing.JInternalFrame{
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void transaksiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transaksiButtonActionPerformed
-        // TODO add your handling code here:
+        Menu pages = new Menu();
+        pages.setVisible(true);
+        this.getDesktopPane().add(pages);
+        this.dispose();
     }//GEN-LAST:event_transaksiButtonActionPerformed
 
 
