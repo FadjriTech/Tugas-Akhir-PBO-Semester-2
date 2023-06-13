@@ -6,26 +6,14 @@ package views;
 
 import database.Connection;
 import helper.Table;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -149,6 +137,11 @@ public final class Transaction extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        transactionTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                transactionTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(transactionTable);
 
         backToStok.setBackground(new java.awt.Color(254, 254, 254));
@@ -240,6 +233,16 @@ public final class Transaction extends javax.swing.JInternalFrame {
             }
         });
     }//GEN-LAST:event_addTransaksiActionPerformed
+
+    private void transactionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactionTableMouseClicked
+        int row = transactionTable.rowAtPoint(evt.getPoint());
+        int column = transactionTable.columnAtPoint(evt.getPoint());
+    
+        if (row >= 0 && column >= 0) {
+            Object value = transactionTable.getValueAt(row, column);
+            System.out.println("Clicked Value: " + value);
+        }
+    }//GEN-LAST:event_transactionTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

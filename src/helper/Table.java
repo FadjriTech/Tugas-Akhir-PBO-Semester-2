@@ -26,11 +26,17 @@ import javax.swing.table.JTableHeader;
  * @author faidfadjri
  */
 public class Table {
+    
+    
+     public void onDeleteEvent(JTable table){
+         
+     }
+    
      public void set(JTable table, DefaultTableModel tableModel, String queries, List<String> fieldList){
         // -- Ambil data dari database
         Connection database = new Connection();
         
-        int rowHeight = 35;
+        int rowHeight = 60;
         Font headerFont = new Font("Sans Serif", Font.PLAIN, 20);
         table.getTableHeader().setFont(headerFont);
         table.getTableHeader().setOpaque(false);
@@ -41,8 +47,24 @@ public class Table {
 
         JTableHeader header = table.getTableHeader();
         header.setPreferredSize(new Dimension(header.getWidth(), rowHeight));
+        
+        
+        tableModel.addColumn("Action");
+        
         table.setModel(tableModel);
-       
+        
+        
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onDelete(int row) {
+                System.out.println("Deleted Row : " +  row);
+            }
+        };
+        
+        table.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event));
+        
+        
         ResultSet res = database.runQueries(queries);
         try {
             int rowCount = 1; // Counter variable for the row number
@@ -77,6 +99,7 @@ public class Table {
                 component.setFont(font);
 
                 // Center align the rows
+                ((DefaultTableCellRenderer) component).setVerticalAlignment(SwingConstants.CENTER);
                 ((DefaultTableCellRenderer) component).setHorizontalAlignment(SwingConstants.CENTER);
 
                 return component;

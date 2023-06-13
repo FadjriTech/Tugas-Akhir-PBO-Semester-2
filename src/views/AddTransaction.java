@@ -50,7 +50,7 @@ public class AddTransaction extends javax.swing.JDialog {
     
     void getItemList() throws SQLException {
         Connection db = new Connection();
-        ResultSet rs = db.runQueries("SELECT item, price FROM stok GROUP BY item");
+        ResultSet rs = db.runQueries("SELECT item, price FROM stok");
         while (rs.next()) {
             String item = rs.getString("item");
             int price = rs.getInt("price");
@@ -85,7 +85,6 @@ public class AddTransaction extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(763, 527));
-        setPreferredSize(new java.awt.Dimension(763, 527));
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 30)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(16, 118, 171));
@@ -96,6 +95,11 @@ public class AddTransaction extends javax.swing.JDialog {
         jLabel2.setText("Add new transaction of your business");
 
         itemName.setBackground(new java.awt.Color(254, 254, 254));
+        itemName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemNameActionPerformed(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("Choose Item");
@@ -171,6 +175,10 @@ public class AddTransaction extends javax.swing.JDialog {
         db.updateStockTo(item, qty);
         this.dispose();
     }//GEN-LAST:event_addTransactionActionPerformed
+
+    private void itemNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemNameActionPerformed
 
     /**
      * @param args the command line arguments

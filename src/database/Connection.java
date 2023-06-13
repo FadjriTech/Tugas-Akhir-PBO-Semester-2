@@ -7,8 +7,8 @@ public final class Connection {
     private static java.sql.Connection conn;
 
     private static final String URL = "jdbc:mysql://localhost/pos";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
+    private static final String USERNAME = "faidfadjri";
+    private static final String PASSWORD = "bismillah";
     
     
     public Connection(){
