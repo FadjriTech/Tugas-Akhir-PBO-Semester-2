@@ -27,12 +27,31 @@ import javax.swing.table.JTableHeader;
  */
 public class Table {
     
+    JTable table;
+    DefaultTableModel tableModel;    
+    TableActionEvent event;
     
-     public void onDeleteEvent(JTable table){
+    public Table(JTable table, DefaultTableModel tableModel, TableActionEvent event){
+        this.table = table;
+        this.tableModel = tableModel;
+        this.event = event;
+    }
+    
+    public TableActionEvent onActionEventListener(TableActionEvent event){
+        return event;
+    }
+    
+    public String getRowData(int row, int column){
+        String idBarang = table.getValueAt(row, column).toString();
+        return idBarang;
+    }
+    
+    public void set(String queries, List<String> fieldList, int actionColumn){
          
-     }
-    
-     public void set(JTable table, DefaultTableModel tableModel, String queries, List<String> fieldList){
+         
+        JTable table = this.table;
+        DefaultTableModel tableModel = this.tableModel;
+         
         // -- Ambil data dari database
         Connection database = new Connection();
         
@@ -54,15 +73,10 @@ public class Table {
         table.setModel(tableModel);
         
         
-        TableActionEvent event = new TableActionEvent() {
-            @Override
-            public void onDelete(int row) {
-                System.out.println("Deleted Row : " +  row);
-            }
-        };
         
-        table.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
-        table.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event));
+        
+        table.getColumnModel().getColumn(actionColumn).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(actionColumn).setCellEditor(new TableActionCellEditor(this.event));
         
         
         ResultSet res = database.runQueries(queries);

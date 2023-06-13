@@ -129,6 +129,9 @@ public final class Connection {
     }    
     
     
+    
+    
+    
     public void updateStockTo(String item, int qty){
         try {
             // Prepare the SQL statement with placeholders for the values
@@ -138,6 +141,40 @@ public final class Connection {
             // Set the values for the prepared statement
             pstmt.setInt(1, qty);
             pstmt.setString(2, item);
+
+            // Execute the statement
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error inserting data into the database: " + e.getMessage());
+        }
+    }
+    
+    
+    public void deleteStokById(String idBarang){
+        try {
+            // Prepare the SQL statement with placeholders for the values
+            String sql = "DELETE FROM stok WHERE id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            // Set the values for the prepared statement
+            pstmt.setInt(1, Integer.parseInt(idBarang));
+
+            // Execute the statement
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error inserting data into the database: " + e.getMessage());
+        }
+    }
+    
+    
+    public void deleteTransactionById(String idTransaksi){
+        try {
+            // Prepare the SQL statement with placeholders for the values
+            String sql = "DELETE FROM transaksi WHERE id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            // Set the values for the prepared statement
+            pstmt.setInt(1, Integer.parseInt(idTransaksi));
 
             // Execute the statement
             pstmt.executeUpdate();

@@ -6,26 +6,13 @@ package views;
 
 import database.Connection;
 import helper.Table;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+import helper.TableActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.table.DefaultTableModel;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-
 /**
  *
  * @author faidfadjri
@@ -35,29 +22,65 @@ public final class Stock extends javax.swing.JInternalFrame{
     /**
      * Creates new form Homepage
      */
+    
+    public Connection db;
     public Stock() {
         initComponents();
         initTable();
+        
+        db = new Connection();
     }
     
     
     void initTable(){
-        Table table = new Table();
         
+        
+        // Create Table Header
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("No");
         tableModel.addColumn("Barang");
+        tableModel.addColumn("ID Barang");
         tableModel.addColumn("Harga");
         tableModel.addColumn("Jumlah");
         
-        
+        // Create Table Row
         List<String> fieldList = new ArrayList<>();
         fieldList.add("item");
+        fieldList.add("id");
         fieldList.add("price");
         fieldList.add("quantity");
         
         
-        table.set(stokTable, tableModel, "SELECT * FROM stok", fieldList);
+        
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onDelete(int row) {
+                // Get the value from a specific column in the selected row
+                String idBarang = stokTable.getValueAt(row, 2).toString();
+
+                // Show a confirmation dialog
+                int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this row?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    // Perform delete operation
+                    db.deleteStokById(idBarang);
+
+                    // Remove the row from the table model
+                    DefaultTableModel model = (DefaultTableModel) stokTable.getModel();
+                    model.removeRow(row);
+                }
+            }
+
+
+            @Override
+            public void onEdit(int row) {
+                
+            }
+        };
+        
+        
+        Table table = new Table(stokTable, tableModel, event);
+        table.set("SELECT * FROM stok", fieldList, 5);
+        
     }
    
     /**

@@ -4,6 +4,7 @@
  */
 package helper;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,6 +19,14 @@ public class PanelAction extends javax.swing.JPanel {
      */
     public PanelAction() {
         initComponents();
+        
+        
+        cmdDelete.setBackground(new Color(0,0,0,0));
+        cmdDelete.setOpaque(false);
+        
+        cmdEdit.setBackground(new Color(0,0,0,0));
+        cmdEdit.setOpaque(false);
+        cmdEdit.setVisible(false);
     }
     
     public void initEvent(TableActionEvent event, int row){
@@ -25,6 +34,14 @@ public class PanelAction extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 event.onDelete(row);
+            }
+            
+        });
+        
+        cmdEdit.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                event.onEdit(row);
             }
             
         });
@@ -40,13 +57,34 @@ public class PanelAction extends javax.swing.JPanel {
     private void initComponents() {
 
         cmdDelete = new javax.swing.JButton();
+        cmdEdit = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setAutoscrolls(true);
 
         cmdDelete.setBackground(new java.awt.Color(255, 192, 192));
+        cmdDelete.setForeground(new java.awt.Color(102, 102, 102));
         cmdDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/remove.png"))); // NOI18N
-        cmdDelete.setText(" Delete");
+        cmdDelete.setText("  Delete");
+        cmdDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        cmdDelete.setBorderPainted(false);
+        cmdDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdDeleteActionPerformed(evt);
+            }
+        });
+
+        cmdEdit.setBackground(new java.awt.Color(255, 238, 192));
+        cmdEdit.setForeground(new java.awt.Color(102, 102, 102));
+        cmdEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/edit.png"))); // NOI18N
+        cmdEdit.setText("  Edit");
+        cmdEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        cmdEdit.setBorderPainted(false);
+        cmdEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -55,19 +93,32 @@ public class PanelAction extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cmdDelete)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmdEdit)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cmdDelete)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmdEdit)
+                    .addComponent(cmdDelete))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmdDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdDeleteActionPerformed
+
+    private void cmdEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdEditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdEditActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdDelete;
+    private javax.swing.JButton cmdEdit;
     // End of variables declaration//GEN-END:variables
 }

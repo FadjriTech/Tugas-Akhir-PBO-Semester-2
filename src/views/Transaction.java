@@ -6,6 +6,7 @@ package views;
 
 import database.Connection;
 import helper.Table;
+import helper.TableActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,32 +26,65 @@ public final class Transaction extends javax.swing.JInternalFrame {
     /**
      * Creates new form Transaction
      */
+    
+    public Connection db;
+    
     public Transaction() {
+        db = new Connection();
         initComponents();
         initTable();
     }
     
-    void initTable(){
-        Table table = new Table();
-        
-        
-        
-        Connection db = new Connection();
+    void getCash(){
+        db.getCash();
         int saldo = db.getCash();
         cash.setText(String.valueOf(saldo));
+    }
+    
+    void initTable(){
+        
+        getCash();
         
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("No");
         tableModel.addColumn("Barang");
+        tableModel.addColumn("ID Transaksi");
         tableModel.addColumn("Total");
         
         
         List<String> fieldList = new ArrayList<>();
         fieldList.add("barang");
+        fieldList.add("id");
         fieldList.add("harga");
         
         
-        table.set(transactionTable, tableModel, "SELECT * FROM transaksi", fieldList);
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onDelete(int row) {
+              // Get the value from a specific column in the selected row
+                String idTransaksi = transactionTable.getValueAt(row, 2).toString();
+                
+                // Show a confirmation dialog
+                int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this row?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    // Perform delete operation
+                    db.deleteTransactionById(idTransaksi);
+
+                    // Remove the row from the table model
+                    DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
+                    model.removeRow(row);
+                    initTable();
+                }
+            }
+
+            @Override
+            public void onEdit(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        
+        Table table = new Table(transactionTable, tableModel, event);
+        table.set("SELECT * FROM transaksi", fieldList, 4);
     }
     
 
