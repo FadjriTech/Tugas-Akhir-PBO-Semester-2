@@ -16,12 +16,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.Transaction;
 
 /**
  *
  * @author faidfadjri
  */
-public final class Transaction extends javax.swing.JInternalFrame {
+public final class TransactionView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Transaction
@@ -29,7 +30,7 @@ public final class Transaction extends javax.swing.JInternalFrame {
     
     public Connection db;
     
-    public Transaction() {
+    public TransactionView() {
         db = new Connection();
         initComponents();
         initTable();
@@ -79,7 +80,17 @@ public final class Transaction extends javax.swing.JInternalFrame {
 
             @Override
             public void onEdit(int row) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                 int id = Integer.parseInt(transactionTable.getValueAt(row, 2).toString());
+                 String barang = transactionTable.getValueAt(row, 1).toString();
+                 String harga  = transactionTable.getValueAt(row, 3).toString();
+                 
+                 
+                 Transaction transaksi = new Transaction();
+                 transaksi.setId(id);
+                 transaksi.setBarang(barang);
+                 transaksi.setHarga(harga);
+                 
+                 openAddModal(transaksi);
             }
         };
         
@@ -252,21 +263,41 @@ public final class Transaction extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_backToStokActionPerformed
 
-    private void addTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransaksiActionPerformed
+    
+    void openAddModal(Transaction transaksi){
         AddTransaction dialog = null;
         try {
-            dialog = new AddTransaction(null, closable);
+            dialog = new AddTransaction(null, closable, transaksi);
         } catch (SQLException ex) {
-            Logger.getLogger(Transaction.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        dialog.setVisible(true);
-      
+        dialog.setVisible(true); 
         dialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 initTable();
             }
         });
+    }
+    
+    void openAddModal(){
+        AddTransaction dialog = null;
+        try {
+            dialog = new AddTransaction(null, closable, null);
+        } catch (SQLException ex) {
+            Logger.getLogger(TransactionView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dialog.setVisible(true); 
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                initTable();
+            }
+        });
+    }
+    
+    private void addTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransaksiActionPerformed
+        openAddModal();
     }//GEN-LAST:event_addTransaksiActionPerformed
 
     private void transactionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactionTableMouseClicked

@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/data/kuliah/netbeans/POS/src/helper/ActionButton.java</file>
-            <file>file:/home/data/kuliah/netbeans/POS/src/helper/TableActionEvent.java</file>
-            <file>file:/home/data/kuliah/netbeans/POS/src/helper/TableActionCellEditor.java</file>
-            <file>file:/home/data/kuliah/netbeans/POS/src/helper/TableActionCellRender.java</file>
-            <file>file:/home/data/kuliah/netbeans/POS/src/helper/PanelAction.java</file>
+            <file>file:/home/data/kuliah/netbeans/POS/src/views/Stock.java</file>
+            <file>file:/home/data/kuliah/netbeans/POS/src/models/Transaction.java</file>
+            <file>file:/home/data/kuliah/netbeans/POS/src/views/AddStock.java</file>
+            <file>file:/home/data/kuliah/netbeans/POS/src/views/TransactionView.java</file>
+            <file>file:/home/data/kuliah/netbeans/POS/src/views/AddTransaction.java</file>
+            <file>file:/home/data/kuliah/netbeans/POS/src/database/Connection.java</file>
             <file>file:/home/data/kuliah/netbeans/POS/src/helper/Table.java</file>
         </group>
     </open-files>

@@ -177,7 +177,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_inventoryMenuActionPerformed
 
     private void transactionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transactionMenuActionPerformed
-        Transaction pages = new Transaction();
+        TransactionView pages = new TransactionView();
         desktopPane.add(pages);
         pages.setVisible(true);
     }//GEN-LAST:event_transactionMenuActionPerformed

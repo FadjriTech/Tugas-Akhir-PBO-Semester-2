@@ -128,6 +128,25 @@ public final class Connection {
         }
     }    
     
+    public void updateStok(int id, String item, int price, int quantity){
+        try {
+            // Prepare the SQL statement with placeholders for the values
+            String sql = "UPDATE stok SET item = ?, price = ?, quantity = ? WHERE id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            // Set the values for the prepared statement
+            pstmt.setString(1, item);
+            pstmt.setDouble(2, price);
+            pstmt.setInt(3, quantity);
+            pstmt.setInt(4, id);
+
+            // Execute the statement
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error inserting data into the database: " + e.getMessage());
+        }
+    }
+    
     
     
     

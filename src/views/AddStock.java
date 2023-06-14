@@ -6,6 +6,7 @@ package views;
 
 import database.Connection;
 import helper.Styling;
+import models.Items;
 
 /**
  *
@@ -13,13 +14,20 @@ import helper.Styling;
  */
 public class AddStock extends javax.swing.JDialog {
 
-    /**
-     * Creates new form TambahStok
-     */
-    public AddStock(java.awt.Frame parent, boolean modal) {
+    
+    public Items item;
+    public AddStock(java.awt.Frame parent, boolean modal, Items item) {
         super(parent, modal);
         initComponents();
         
+        if(item != null){
+            this.item = item;
+            namaBarang.setText(item.getItem());
+            hargaBarang.setText(String.valueOf(item.getPrice()));
+            jumlahBarang.setValue(item.getQuantity());
+            
+            addStokbutton.setText("Update Barang");
+       }
         
         Styling style = new Styling();
         style.setPadding(namaBarang, 5, 5, 20, 5);
@@ -44,6 +52,7 @@ public class AddStock extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        idBarang = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -107,7 +116,10 @@ public class AddStock extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(jumlahBarang, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(addStokbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(idBarang)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -116,7 +128,9 @@ public class AddStock extends javax.swing.JDialog {
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(idBarang))
                 .addGap(34, 34, 34)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -152,7 +166,12 @@ public class AddStock extends javax.swing.JDialog {
         Object getJumlah = this.jumlahBarang.getValue();
         String jumlah = getJumlah != null ? getJumlah.toString() : "0"; // Default to "0" if value is null
 
-        database.insertStok(nama, Integer.parseInt(harga), Integer.parseInt(jumlah));
+        
+        if(item != null){
+            database.updateStok(item.getId(), nama, Integer.parseInt(harga), Integer.parseInt(jumlah)); 
+        } else {
+            database.insertStok(nama, Integer.parseInt(harga), Integer.parseInt(jumlah)); 
+        }
         namaBarang.setText("");
         hargaBarang.setText("");
 
@@ -195,7 +214,7 @@ public class AddStock extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddStock dialog = new AddStock(new javax.swing.JFrame(), true);
+                AddStock dialog = new AddStock(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -210,6 +229,7 @@ public class AddStock extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton addStokbutton;
     private javax.swing.JTextField hargaBarang;
+    private javax.swing.JLabel idBarang;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -71,10 +71,6 @@ public class Table {
         tableModel.addColumn("Action");
         
         table.setModel(tableModel);
-        
-        
-        
-        
         table.getColumnModel().getColumn(actionColumn).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(actionColumn).setCellEditor(new TableActionCellEditor(this.event));
         

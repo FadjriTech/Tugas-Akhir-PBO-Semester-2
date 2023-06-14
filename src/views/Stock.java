@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import models.Items;
 /**
  *
  * @author faidfadjri
@@ -74,13 +75,52 @@ public final class Stock extends javax.swing.JInternalFrame{
             @Override
             public void onEdit(int row) {
                 
+                String item = stokTable.getValueAt(row, 1).toString();
+                int id      = Integer.parseInt(stokTable.getValueAt(row, 2).toString());
+                int price   = Integer.parseInt(stokTable.getValueAt(row, 3).toString());
+                int qty     = Integer.parseInt(stokTable.getValueAt(row, 4).toString());
+                
+                Items rowData = new Items();
+                rowData.setId(id);
+                rowData.setItem(item);
+                rowData.setPrice(price);
+                rowData.setQuantity(qty);
+                
+                openAddDialog(rowData);
+                
             }
         };
         
         
         Table table = new Table(stokTable, tableModel, event);
-        table.set("SELECT * FROM stok", fieldList, 5);
+        table.set("SELECT * FROM stok where quantity > 0", fieldList, 5);
         
+    }
+    
+    
+    void openAddDialog(Items item){
+       AddStock dialog = new AddStock(null, closable, item);
+       dialog.setVisible(true);
+       
+       dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                initTable();
+            }
+        });
+    }
+    
+    void openAddDialog(){
+        AddStock dialog = new AddStock(null, closable, null);
+        dialog.setVisible(true);
+       
+       
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                initTable();
+            }
+        });
     }
    
     /**
@@ -218,17 +258,7 @@ public final class Stock extends javax.swing.JInternalFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-       AddStock dialog = new AddStock(null, closable);
-       dialog.setVisible(true);
-       
-       
-        dialog.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                initTable();
-            }
-        });
-       
+        openAddDialog();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void transaksiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transaksiButtonActionPerformed

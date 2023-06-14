@@ -26,7 +26,6 @@ public class PanelAction extends javax.swing.JPanel {
         
         cmdEdit.setBackground(new Color(0,0,0,0));
         cmdEdit.setOpaque(false);
-        cmdEdit.setVisible(false);
     }
     
     public void initEvent(TableActionEvent event, int row){

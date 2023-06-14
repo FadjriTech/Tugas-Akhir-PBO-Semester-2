@@ -5,24 +5,15 @@
 package views;
 
 import database.Connection;
-import database.Product;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
-import javax.swing.JList;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
-import javax.swing.UIManager;
+import models.Transaction;
 
 /**
  *
@@ -37,10 +28,9 @@ public class AddTransaction extends javax.swing.JDialog {
     public List<String> itemList = new ArrayList<>();
     public List<Integer> priceList = new ArrayList<>();
     
-    public AddTransaction(java.awt.Frame parent, boolean modal) throws SQLException {
+    public AddTransaction(java.awt.Frame parent, boolean modal, Transaction transaksi) throws SQLException {
         super(parent, modal);
         initComponents();
-       
         
         JComponent editor = this.itemQty.getEditor();
         JFormattedTextField textField = ((JSpinner.DefaultEditor) editor).getTextField();
@@ -211,7 +201,7 @@ public class AddTransaction extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    AddTransaction dialog = new AddTransaction(new javax.swing.JFrame(), true);
+                    AddTransaction dialog = new AddTransaction(new javax.swing.JFrame(), true, null);
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosing(java.awt.event.WindowEvent e) {
